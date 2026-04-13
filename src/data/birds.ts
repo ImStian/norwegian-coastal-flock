@@ -18,6 +18,23 @@ export const allCategories: { value: BirdCategory; label: string }[] = [
   { value: "songbirds", label: "Songbirds" },
 ];
 
+export interface BirdPhoto {
+  id: string;
+  species: string;
+  commonName: string;
+  scientificName: string;
+  category: BirdCategory;
+  image: string;
+  location: string;
+  lat: number;
+  lng: number;
+  date: string;
+  camera: string;
+  lens: string;
+  settings: string;
+  description: string;
+}
+
 export const birdPhotos: BirdPhoto[] = [
   {
     id: "1",
