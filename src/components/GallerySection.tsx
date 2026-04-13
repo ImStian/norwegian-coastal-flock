@@ -1,15 +1,21 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, MapPin, Calendar, Camera, Aperture } from "lucide-react";
-import { birdPhotos, categories, type BirdPhoto, type BirdCategory } from "@/data/birds";
+import { birdPhotos, allCategories, type BirdPhoto, type BirdCategory } from "@/data/birds";
 
 const GallerySection = () => {
   const [filter, setFilter] = useState<BirdCategory | "all">("all");
   const [selected, setSelected] = useState<BirdPhoto | null>(null);
 
+  // Only show categories that have at least one photo
+  const activeCategories = useMemo(() => {
+    const usedCategories = new Set(birdPhotos.flatMap((b) => b.categories));
+    return allCategories.filter((cat) => usedCategories.has(cat.value));
+  }, []);
+
   const filtered = filter === "all"
     ? birdPhotos
-    : birdPhotos.filter((b) => b.category === filter);
+    : birdPhotos.filter((b) => b.categories.includes(filter));
 
   return (
     <section className="section-padding min-h-screen" id="gallery">
@@ -29,7 +35,17 @@ const GallerySection = () => {
 
       {/* Filters */}
       <div className="flex flex-wrap gap-2 mb-10">
-        {categories.map((cat) => (
+        <button
+          onClick={() => setFilter("all")}
+          className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+            filter === "all"
+              ? "bg-primary text-primary-foreground"
+              : "glass text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          All Species
+        </button>
+        {activeCategories.map((cat) => (
           <button
             key={cat.value}
             onClick={() => setFilter(cat.value)}

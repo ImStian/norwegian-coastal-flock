@@ -6,12 +6,12 @@ import birdGull from "@/assets/bird-gull.jpg";
 import birdOystercatcher from "@/assets/bird-oystercatcher.jpg";
 import birdGannet from "@/assets/bird-gannet.jpg";
 
-export type BirdCategory = "seabirds" | "waterfowl" | "birds_of_prey" | "forest_birds" | "waders" | "mountain_birds" | "songbirds";
+export type BirdCategory = "seabirds" | "waterfowl" | "raptors" | "forest_birds" | "waders" | "mountain_birds" | "songbirds";
 
 export const allCategories: { value: BirdCategory; label: string }[] = [
   { value: "seabirds", label: "Seabirds" },
   { value: "waterfowl", label: "Waterfowl" },
-  { value: "birds_of_prey", label: "Birds of Prey" },
+  { value: "raptors", label: "Raptors" },
   { value: "forest_birds", label: "Forest Birds" },
   { value: "waders", label: "Waders" },
   { value: "mountain_birds", label: "Mountain Birds" },
@@ -23,7 +23,7 @@ export interface BirdPhoto {
   species: string;
   commonName: string;
   scientificName: string;
-  category: BirdCategory;
+  categories: BirdCategory[];
   image: string;
   location: string;
   lat: number;
@@ -41,7 +41,7 @@ export const birdPhotos: BirdPhoto[] = [
     species: "White-tailed Eagle",
     commonName: "Havørn",
     scientificName: "Haliaeetus albicilla",
-    category: "raptors",
+    categories: ["raptors"],
     image: birdEagle,
     location: "Lofoten, Nordland",
     lat: 68.2,
@@ -57,7 +57,7 @@ export const birdPhotos: BirdPhoto[] = [
     species: "Atlantic Puffin",
     commonName: "Lunde",
     scientificName: "Fratercula arctica",
-    category: "seabirds",
+    categories: ["seabirds"],
     image: birdPuffin,
     location: "Runde, Møre og Romsdal",
     lat: 62.4,
@@ -73,7 +73,7 @@ export const birdPhotos: BirdPhoto[] = [
     species: "Common Eider",
     commonName: "Ærfugl",
     scientificName: "Somateria mollissima",
-    category: "waterfowl",
+    categories: ["waterfowl", "seabirds"],
     image: birdEider,
     location: "Vega, Nordland",
     lat: 65.7,
@@ -89,7 +89,7 @@ export const birdPhotos: BirdPhoto[] = [
     species: "Arctic Tern",
     commonName: "Rødnebbterne",
     scientificName: "Sterna paradisaea",
-    category: "seabirds",
+    categories: ["seabirds"],
     image: birdTern,
     location: "Tromsø, Troms",
     lat: 69.6,
@@ -105,7 +105,7 @@ export const birdPhotos: BirdPhoto[] = [
     species: "Herring Gull",
     commonName: "Gråmåke",
     scientificName: "Larus argentatus",
-    category: "seabirds",
+    categories: ["seabirds"],
     image: birdGull,
     location: "Bergen, Vestland",
     lat: 60.4,
@@ -121,7 +121,7 @@ export const birdPhotos: BirdPhoto[] = [
     species: "Eurasian Oystercatcher",
     commonName: "Tjeld",
     scientificName: "Haematopus ostralegus",
-    category: "shorebirds",
+    categories: ["waders"],
     image: birdOystercatcher,
     location: "Jæren, Rogaland",
     lat: 58.8,
@@ -137,7 +137,7 @@ export const birdPhotos: BirdPhoto[] = [
     species: "Northern Gannet",
     commonName: "Havsule",
     scientificName: "Morus bassanus",
-    category: "seabirds",
+    categories: ["seabirds"],
     image: birdGannet,
     location: "Runde, Møre og Romsdal",
     lat: 62.39,

@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { motion } from "framer-motion";
 import { MapPin, Calendar, Camera, Aperture } from "lucide-react";
-import { birdPhotos, categories, type BirdCategory } from "@/data/birds";
+import { birdPhotos, allCategories, type BirdCategory } from "@/data/birds";
 import "leaflet/dist/leaflet.css";
 
 // Custom marker icon
@@ -25,15 +25,24 @@ const createIcon = (color: string) =>
 const categoryColors: Record<BirdCategory, string> = {
   seabirds: "hsl(185, 45%, 45%)",
   raptors: "hsl(35, 80%, 50%)",
-  shorebirds: "hsl(150, 40%, 40%)",
   waterfowl: "hsl(220, 50%, 55%)",
+  waders: "hsl(150, 40%, 40%)",
+  forest_birds: "hsl(100, 40%, 40%)",
+  mountain_birds: "hsl(270, 30%, 50%)",
+  songbirds: "hsl(340, 50%, 55%)",
 };
 
 const BirdMap = () => {
   const [filter, setFilter] = useState<BirdCategory | "all">("all");
 
+  // Only show categories that have at least one photo
+  const activeCategories = useMemo(() => {
+    const usedCategories = new Set(birdPhotos.flatMap((b) => b.categories));
+    return allCategories.filter((cat) => usedCategories.has(cat.value));
+  }, []);
+
   const filtered = useMemo(
-    () => filter === "all" ? birdPhotos : birdPhotos.filter((b) => b.category === filter),
+    () => filter === "all" ? birdPhotos : birdPhotos.filter((b) => b.categories.includes(filter)),
     [filter]
   );
 
@@ -55,7 +64,17 @@ const BirdMap = () => {
 
       {/* Filters */}
       <div className="flex flex-wrap gap-2 mb-6">
-        {categories.map((cat) => (
+        <button
+          onClick={() => setFilter("all")}
+          className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+            filter === "all"
+              ? "bg-primary text-primary-foreground"
+              : "glass text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          All Species
+        </button>
+        {activeCategories.map((cat) => (
           <button
             key={cat.value}
             onClick={() => setFilter(cat.value)}
@@ -92,7 +111,7 @@ const BirdMap = () => {
             <Marker
               key={bird.id}
               position={[bird.lat, bird.lng]}
-              icon={createIcon(categoryColors[bird.category])}
+              icon={createIcon(categoryColors[bird.categories[0]])}
             >
               <Popup maxWidth={320} minWidth={280}>
                 <div className="flex gap-3">
