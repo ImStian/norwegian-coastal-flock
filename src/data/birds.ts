@@ -6,31 +6,16 @@ import birdGull from "@/assets/bird-gull.jpg";
 import birdOystercatcher from "@/assets/bird-oystercatcher.jpg";
 import birdGannet from "@/assets/bird-gannet.jpg";
 
-export type BirdCategory = "seabirds" | "raptors" | "shorebirds" | "waterfowl";
+export type BirdCategory = "seabirds" | "waterfowl" | "birds_of_prey" | "forest_birds" | "waders" | "mountain_birds" | "songbirds";
 
-export interface BirdPhoto {
-  id: string;
-  species: string;
-  commonName: string;
-  scientificName: string;
-  category: BirdCategory;
-  image: string;
-  location: string;
-  lat: number;
-  lng: number;
-  date: string;
-  camera: string;
-  lens: string;
-  settings: string;
-  description: string;
-}
-
-export const categories: { value: BirdCategory | "all"; label: string }[] = [
-  { value: "all", label: "All Species" },
+export const allCategories: { value: BirdCategory; label: string }[] = [
   { value: "seabirds", label: "Seabirds" },
-  { value: "raptors", label: "Raptors" },
-  { value: "shorebirds", label: "Shorebirds" },
   { value: "waterfowl", label: "Waterfowl" },
+  { value: "birds_of_prey", label: "Birds of Prey" },
+  { value: "forest_birds", label: "Forest Birds" },
+  { value: "waders", label: "Waders" },
+  { value: "mountain_birds", label: "Mountain Birds" },
+  { value: "songbirds", label: "Songbirds" },
 ];
 
 export const birdPhotos: BirdPhoto[] = [
